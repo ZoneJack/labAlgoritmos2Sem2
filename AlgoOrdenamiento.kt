@@ -99,3 +99,57 @@ fun mergesort(arr: Array<Number>) {
 }
 
 Aqui poner Heapsort
+/**
+ * Implementacion del algoritmo HeapSort
+ * 
+ *
+ */
+fun heapsort(A: Array<Number>) {
+    val n = A.size
+    buildMaxHeap(A)
+    for (i in n - 1 downTo 1) {
+        // Intercambiar el primer elemento (maximo) con el ultimo elemento no ordenado
+        val temp = A[0]
+        A[0] = A[i]
+        A[i] = temp
+        // Llamar maxHeapify en el heap reducido
+        maxHeapify(A, 0, i)
+    }
+}
+
+/**
+ * Funcion auxiliar para construir un max-heap a partir del array dado.
+ */
+fun buildMaxHeap(A: Array<Number>) {
+    val n = A.size
+    // Llama a maxHeapify en todos los nodos que no son hojas (del ultimo padre al primero)
+    for (i in (n / 2) - 1 downTo 0) {
+        maxHeapify(A, i, n)
+    }
+}
+
+/**
+ * Funcion auxiliar para mantener la propiedad de max-heap
+ */
+fun maxHeapify(A: Array<Number>, i: Int, heapSize: Int) {
+    val left = 2 * i + 1
+    val right = 2 * i + 2
+    var largest = i
+    
+    // Comprobar si el hijo izquierdo existe y es mayor que el nodo actual
+    if (left < heapSize && A[left] > A[largest]) {
+        largest = left
+    }
+    // Comprobar si el hijo derecho existe y es mayor que el 'largest' hasta ahora
+    if (right < heapSize && A[right] > A[largest]) {
+        largest = right
+    }
+    // Si el 'largest' no es el nodo actal, intercambiarlos y seguir heapificando
+    if (largest != i) {
+        val swap = A[i]
+        A[i] = A[largest]
+        A[largest] = swap
+        // Llamada recursiva para asegurar que el sub-arbol siga siendo un max-heap
+        maxHeapify(A, largest, heapSize)
+    }
+}
