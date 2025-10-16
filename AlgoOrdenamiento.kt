@@ -153,3 +153,116 @@ fun maxHeapify(A: Array<Number>, i: Int, heapSize: Int) {
         maxHeapify(A, largest, heapSize)
     }
 }
+
+//-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
+
+// UnirFilas.kt
+import java.io.File
+import java.io.FileNotFoundException
+
+/**
+ * Este programa lee una matriz de un archivo, extrae las filas impares
+ * y las combina en un único arreglo ordenado en tiempo lineal.
+ */
+fun main(args: Array<String>) {
+    // 1. Validar que se proporcionó un nombre de archivo.
+    if (args.isEmpty()) {
+        println("Error: Debe proporcionar el nombre del archivo de entrada.")
+        println("Uso: ./runUnirFilas <archivo_entrada>")
+        return
+    }
+
+    try {
+        val inputFile = File(args[0])
+        val lines = inputFile.readLines()
+
+        // 2. Leer dimensiones y la matriz del archivo.
+        val dimensions = lines[0].split(" ").map { it.toInt() }
+        val n = dimensions[0]
+        val matrix = lines.drop(1).map { line ->
+            line.split(" ").map { it.toInt() }.toTypedArray()
+        }
+
+        // 3. Si no hay filas, no hay nada que hacer.
+        if (n == 0) {
+            println()
+            return
+        }
+
+        // 4. Iniciar el resultado con la primera fila (fila impar #1).
+        var resultArray = matrix[0]
+
+        // 5. Iterar sobre las demás filas impares y mezclarlas con el resultado.
+        // El bucle empieza en 2 (la tercera fila) y avanza de 2 en 2.
+        for (i in 2 until n step 2) {
+            resultArray = merge(resultArray, matrix[i])
+        }
+
+        // 6. Imprimir el resultado final.
+        println(resultArray.joinToString(" "))
+
+    } catch (e: FileNotFoundException) {
+        println("Error: El archivo '${args[0]}' no fue encontrado.")
+    } catch (e: Exception) {
+        println("Error: El formato del archivo es inválido. ${e.message}")
+    }
+}
+
+/**
+ * Combina dos arreglos ordenados en un nuevo arreglo ordenado.
+ * Esta operación se ejecuta en tiempo lineal O(n + m).
+ */
+private fun merge(arr1: Array<Int>, arr2: Array<Int>): Array<Int> {
+    val result = Array(arr1.size + arr2.size) { 0 }
+    var i = 0 // Puntero para arr1
+    var j = 0 // Puntero para arr2
+    var k = 0 // Puntero para result
+
+    while (i < arr1.size && j < arr2.size) {
+        if (arr1[i] <= arr2[j]) {
+            result[k++] = arr1[i++]
+        } else {
+            result[k++] = arr2[j++]
+        }
+    }
+
+    // Copiar los elementos restantes de arr1, si los hay
+    while (i < arr1.size) {
+        result[k++] = arr1[i++]
+    }
+
+    // Copiar los elementos restantes de arr2, si los hay
+    while (j < arr2.size) {
+        result[k++] = arr2[j++]
+    }
+
+    return result
+}
+
+//-----------------------------------------------
+//Makefile
+# Nombre del archivo JAR que se creará
+JAR_NAME=UnirFilas.jar
+
+# Compilador de Kotlin
+KOTLINC=kotlinc
+
+# Regla por defecto: compilar el proyecto
+default: compile
+
+# Regla para compilar el archivo .kt en un .jar ejecutable
+compile:
+	$(KOTLINC) UnirFilas.kt -include-runtime -d $(JAR_NAME)
+
+# Regla para limpiar los archivos compilados
+clean:
+	rm -f $(JAR_NAME)
+
+//------------------------------
+//runUnirFilas.sh
+#!/bin/bash
+
+# Ejecuta el archivo JAR y le pasa el primer argumento ($1) que reciba el script.
+# $1 será el nombre del archivo de la matriz.
+java -jar UnirFilas.jar "$1"
