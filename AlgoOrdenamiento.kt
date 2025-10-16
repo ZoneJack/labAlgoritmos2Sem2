@@ -97,3 +97,5 @@ fun mergesort(arr: Array<Number>) {
         arr[i] = merged[i]
     }
 }
+
+Aqui poner Heapsort
