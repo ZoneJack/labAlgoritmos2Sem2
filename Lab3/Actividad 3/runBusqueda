@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+	echo "Error: Se debe proporcionar el nombre del archivo."
+	echo "Uso: $0 archivo_entrada"
+	exit 1
+fi
+
+# Ejecutar
+kotlin -classpath Busqueda.jar BusquedaKt "$@"
