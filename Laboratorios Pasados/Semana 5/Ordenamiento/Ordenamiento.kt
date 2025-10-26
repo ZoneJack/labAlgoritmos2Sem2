@@ -179,7 +179,6 @@ fun buildMaxHeap(A: Array<Number>) {
 
 /**
  * Función auxiliar para intercambiar dos elementos en un arreglo.
- * Corresponde al 'exch' mencionado en el enunciado.
  */
 fun swap(A: Array<Number>, i: Int, j: Int) {
     val temp = A[i]
@@ -189,7 +188,7 @@ fun swap(A: Array<Number>, i: Int, j: Int) {
 
 //-----------------------QuickSort Clasico-----------------------
 /**
- * Función auxiliar para particionar el arreglo alrededor de un pivote.
+ * Funcion auxiliar para particionar el arreglo alrededor de un pivote.
  */
 fun partition(A: Array<Number>, p: Int, r: Int): Int {
     val x = A[r] // Pivote
@@ -215,9 +214,9 @@ fun quicksortClasico(A: Array<Number>, p: Int = 0, r: Int = A.size - 1) {
     }
 }
 
-//-------------------QuickSort 3-Way Partitioning-------------------
+//-------------------QuickSort Particiones de 3 partes-------------------
 /**
- * Implementación del algoritmo Quicksort con particionamiento de 3 vías.
+ * Implementación del algoritmo Quicksort con particionamiento de 3.
  */
 fun quicksortThreeway(A: Array<Number>, l: Int = 0, r: Int = A.size - 1) {
     if (r <= l) return
@@ -273,4 +272,5 @@ fun quicksortThreeway(A: Array<Number>, l: Int = 0, r: Int = A.size - 1) {
     // Llamadas recursivas a las zonas izquierda y derecha
     quicksortThreeway(A, l, j)
     quicksortThreeway(A, i, r)
+
 }
